@@ -6,8 +6,6 @@ The Retail Sales Analytics Dashboard project aims to analyze retail sales data a
 
 This project is being developed as part of the Infotact Technical Internship Program.
 
----
-
 # 🎯 Objectives
 - Analyze retail sales performance
 - Identify top-performing products and regions
@@ -16,20 +14,15 @@ This project is being developed as part of the Infotact Technical Internship Pro
 - Build an interactive Power BI dashboard
 - Generate business insights for decision-making
 
----
-
 # 🛠 Technologies Used
 
 | Technology | Purpose |
-|---|---|
 | Python | Data Cleaning & Analysis |
 | Pandas | Data Manipulation |
 | SQL | Querying & KPI Analysis |
 | Power BI | Dashboard Visualization |
 | Git & GitHub | Version Control |
 | Excel | Initial Data Exploration |
-
----
 
 # 📂 Project Structure
 
@@ -58,8 +51,6 @@ Retail-Sales-Analytics-Dashboard/
 └── .gitignore
 ```
 
----
-
 # 📊 Dataset Information
 Dataset Used:
 - Superstore Retail Dataset
@@ -74,19 +65,14 @@ Key Columns:
 - Region
 - Customer Segment
 
----
-
 # 👥 Team Members
 
 | Name | Responsibility |
-|---|---|
 | Sachin | Team Lead 
 | Ratchanya | 
 | Keerthana | 
 | Yogadeepshika |
 | Jothipriya 
-
----
 
 # 📅 Project Timeline
 
@@ -107,8 +93,6 @@ Key Columns:
 - Final documentation
 - Project submission
 
----
-
 # 📈 Expected Insights
 - Monthly sales trends
 - Top-selling products
@@ -117,12 +101,8 @@ Key Columns:
 - Customer segment performance
 - Sales forecasting insights
 
----
-
 # 🔄 GitHub Workflow
 - Feature branch development
 - Daily commits
 - Pull requests for merging
 - Team collaboration through GitHub
-
----
