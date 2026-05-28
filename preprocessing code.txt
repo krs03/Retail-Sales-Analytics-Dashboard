@@ -1,0 +1,234 @@
+# ============================================
+# RETAIL SALES DATA PREPROCESSING
+# Superstore Dataset
+# ============================================
+
+# STEP 1 — Import Libraries
+import pandas as pd
+import numpy as np
+
+# ============================================
+# STEP 2 — Load Dataset
+# ============================================
+
+df = pd.read_csv("/content/Sample - Superstore.csv", encoding='latin1')
+
+# ============================================
+# STEP 3 — Basic Dataset Information
+# ============================================
+
+print("FIRST 5 ROWS")
+print(df.head())
+
+print("\nDATASET INFO")
+print(df.info())
+
+print("\nDATASET SHAPE")
+print(df.shape)
+
+# ============================================
+# STEP 4 — Check Missing Values
+# ============================================
+
+print("\nMISSING VALUES")
+print(df.isnull().sum())
+
+# ============================================
+# STEP 5 — Remove Missing Values
+# ============================================
+
+df = df.dropna()
+
+print("\nMISSING VALUES AFTER CLEANING")
+print(df.isnull().sum())
+
+# ============================================
+# STEP 6 — Check Duplicate Rows
+# ============================================
+
+print("\nDUPLICATE ROWS")
+print(df.duplicated().sum())
+
+# ============================================
+# STEP 7 — Remove Duplicates
+# ============================================
+
+df = df.drop_duplicates()
+
+print("\nDUPLICATES AFTER REMOVAL")
+print(df.duplicated().sum())
+
+# ============================================
+# STEP 8 — Convert Date Columns
+# ============================================
+
+df['Order Date'] = pd.to_datetime(df['Order Date'])
+df['Ship Date'] = pd.to_datetime(df['Ship Date'])
+
+# ============================================
+# STEP 9 — Check Data Types
+# ============================================
+
+print("\nDATA TYPES")
+print(df.dtypes)
+
+# ============================================
+# STEP 10 — Feature Engineering
+# ============================================
+
+# Delivery Days
+df['Delivery Days'] = (
+    df['Ship Date'] - df['Order Date']
+).dt.days
+
+# Profit Margin
+df['Profit Margin'] = (
+    df['Profit'] / df['Sales']
+) * 100
+
+# Order Year
+df['Order Year'] = df['Order Date'].dt.year
+
+# Order Month Number
+df['Order Month'] = df['Order Date'].dt.month
+
+# Month Name
+df['Month Name'] = df['Order Date'].dt.strftime('%b')
+
+# Day Name
+df['Day Name'] = df['Order Date'].dt.day_name()
+
+# Quarter
+df['Quarter'] = df['Order Date'].dt.quarter
+
+# ============================================
+# STEP 11 — Check Date Range
+# ============================================
+
+print("\nSTART DATE")
+print(df['Order Date'].min())
+
+print("\nEND DATE")
+print(df['Order Date'].max())
+
+# ============================================
+# STEP 12 — Check Total Months
+# ============================================
+
+total_months = df['Order Date'].dt.to_period('M').nunique()
+
+print("\nTOTAL UNIQUE MONTHS")
+print(total_months)
+
+# ============================================
+# STEP 13 — Descriptive Statistics
+# ============================================
+
+print("\nNUMERICAL SUMMARY")
+print(df[['Sales', 'Profit', 'Quantity', 'Discount']].describe())
+
+# ============================================
+# STEP 14 — Outlier Check
+# ============================================
+
+print("\nHIGH SALES VALUES")
+print(df[df['Sales'] > df['Sales'].quantile(0.99)])
+
+# ============================================
+# STEP 15 — Check Unique Categories
+# ============================================
+
+print("\nCATEGORIES")
+print(df['Category'].unique())
+
+print("\nSUB-CATEGORIES")
+print(df['Sub-Category'].unique())
+
+print("\nREGIONS")
+print(df['Region'].unique())
+
+# ============================================
+# STEP 16 — Business Metrics
+# ============================================
+
+total_sales = df['Sales'].sum()
+
+total_profit = df['Profit'].sum()
+
+average_sales = df['Sales'].mean()
+
+total_orders = df['Order ID'].nunique()
+
+print("\nTOTAL SALES:", total_sales)
+
+print("TOTAL PROFIT:", total_profit)
+
+print("AVERAGE SALES:", average_sales)
+
+print("TOTAL ORDERS:", total_orders)
+
+# ============================================
+# STEP 17 — Monthly Sales Trend
+# ============================================
+
+monthly_sales = df.groupby(
+    df['Order Date'].dt.to_period('M')
+)['Sales'].sum()
+
+print("\nMONTHLY SALES TREND")
+print(monthly_sales)
+
+# ============================================
+# STEP 18 — Region-wise Sales
+# ============================================
+
+region_sales = df.groupby('Region')['Sales'].sum()
+
+print("\nREGION SALES")
+print(region_sales)
+
+# ============================================
+# STEP 19 — Category-wise Sales
+# ============================================
+
+category_sales = df.groupby('Category')['Sales'].sum()
+
+print("\nCATEGORY SALES")
+print(category_sales)
+
+# ============================================
+# STEP 20 — Top 10 Products
+# ============================================
+
+top_products = df.groupby(
+    'Product Name'
+)['Sales'].sum().sort_values(
+    ascending=False
+).head(10)
+
+print("\nTOP 10 PRODUCTS")
+print(top_products)
+
+# ============================================
+# STEP 21 — Save Cleaned Dataset
+# ============================================
+
+df.to_csv(
+    "cleaned_superstore.csv",
+    index=False
+)
+
+print("\nCLEANED DATASET SAVED SUCCESSFULLY AS CSV")
+# Save cleaned dataset (this line overwrites the original input, typically not desired)
+df.to_csv("/content/Sample - Superstore.csv", index=False)
+
+# Display cleaned data
+print(df.head())
+
+# Convert to Excel and Download cleaned file
+excel_file_path = '/content/cleaned_superstore.xlsx'
+df.to_excel(excel_file_path, index=False)
+print(f"Successfully converted and saved to '{excel_file_path}'")
+
+from google.colab import files
+files.download(excel_file_path)
